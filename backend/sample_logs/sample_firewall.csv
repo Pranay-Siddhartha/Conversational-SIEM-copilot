@@ -1,0 +1,22 @@
+timestamp,source_ip,dest_ip,action,status,severity,username
+2024-03-15 00:55:00,192.168.1.105,10.0.0.50,port_scan,blocked,high,
+2024-03-15 00:56:00,192.168.1.105,10.0.0.50,port_scan,blocked,high,
+2024-03-15 00:57:00,192.168.1.105,10.0.0.50,port_scan,blocked,high,
+2024-03-15 01:00:00,192.168.1.105,10.0.0.50,ssh_attempt,allowed,medium,
+2024-03-15 01:05:00,192.168.1.105,10.0.0.50,ssh_session,allowed,high,root
+2024-03-15 01:09:00,10.0.0.50,192.168.1.200,scp_transfer,allowed,critical,backdoor
+2024-03-15 01:09:30,10.0.0.50,203.0.113.100,http_post,allowed,critical,backdoor
+2024-03-15 01:10:00,10.0.0.99,10.0.0.50,ssh_attempt,blocked,medium,
+2024-03-15 01:10:05,10.0.0.99,10.0.0.51,ssh_attempt,blocked,medium,
+2024-03-15 01:10:10,10.0.0.99,10.0.0.52,ssh_attempt,blocked,medium,
+2024-03-15 01:10:15,10.0.0.99,10.0.0.53,ssh_attempt,blocked,medium,
+2024-03-15 01:10:20,10.0.0.99,10.0.0.54,ssh_attempt,blocked,medium,
+2024-03-15 01:10:25,10.0.0.99,10.0.0.55,ssh_attempt,blocked,medium,
+2024-03-15 01:10:30,10.0.0.99,10.0.0.56,ssh_attempt,blocked,medium,
+2024-03-15 01:10:35,10.0.0.99,10.0.0.57,ssh_attempt,blocked,medium,
+2024-03-15 01:10:40,10.0.0.99,10.0.0.58,ssh_attempt,blocked,medium,
+2024-03-15 01:10:45,10.0.0.99,10.0.0.59,ssh_attempt,blocked,medium,
+2024-03-15 01:10:50,10.0.0.99,10.0.0.60,ssh_attempt,blocked,medium,
+2024-03-15 08:30:00,10.10.10.5,10.0.0.50,ssh_session,allowed,low,devops
+2024-03-15 09:00:00,10.10.10.10,10.0.0.50,ssh_session,allowed,low,developer
+2024-03-15 12:00:00,10.10.10.5,10.0.0.50,ssh_disconnect,allowed,info,devops
