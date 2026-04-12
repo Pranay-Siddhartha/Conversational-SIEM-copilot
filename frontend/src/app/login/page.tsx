@@ -84,7 +84,7 @@ export default function LoginPage() {
           <div>
             <div style={{ marginBottom: 16, minHeight: 70 }}>
               <TextType
-                texts={["Your SOC, Reinvented.", "AI-Powered Threat Intel.", "Defend Smarter, Not Harder."]}
+                texts={["Your SOC, Reinvented.", "AI-Powered Threat Intel.", "Defend Smarter."]}
                 typingSpeed={75}
                 deletingSpeed={50}
                 pauseDuration={1500}
