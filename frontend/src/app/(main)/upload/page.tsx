@@ -129,10 +129,16 @@ export default function UploadPage() {
       )}
 
       {/* Actions */}
-      <div style={{ marginTop: 24, display: "flex", gap: 12 }}>
+      <div style={{ marginTop: 24, display: "flex", gap: 12, alignItems: "center" }}>
         <button className="btn btn-danger" onClick={handleClear}>
           Clear All Logs
         </button>
+        
+        <div style={{ borderLeft: "1px solid var(--border-color)", height: 24, margin: "0 8px" }} />
+        
+        <a href="/sample_auth.log" download className="btn btn-primary" title="Download a sample log to test the system">
+          <FileText size={16} /> Download Sample Log
+        </a>
       </div>
 
 
