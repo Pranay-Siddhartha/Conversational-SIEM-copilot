@@ -15,17 +15,12 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
-    // Superuser check
-    if (username === "admin") {
-      if (password !== "root123") {
-        setError("Invalid superuser credentials.");
-        return;
-      }
-    }
-
-    if (username.trim().length > 0) {
-      localStorage.setItem("siem_username", username.trim());
+    // Strict Superuser enforcement for public demo
+    if (username === "admin" && password === "root123") {
+      localStorage.setItem("siem_username", "admin");
       router.push("/");
+    } else {
+      setError("Invalid credentials. Please use the public demo access credentials.");
     }
   };
 
@@ -184,11 +179,26 @@ export default function LoginPage() {
               </h2>
               <p style={{
                 color: "var(--text-muted)", textAlign: "center",
-                fontSize: 12, marginBottom: 28,
+                fontSize: 12, marginBottom: 16,
                 textTransform: "uppercase", letterSpacing: "1.5px",
               }}>
                 Initialize Analyst Session
               </p>
+
+              {/* Public Demo Notice */}
+              <div style={{
+                background: "rgba(0, 243, 255, 0.08)",
+                border: "1px solid rgba(0, 243, 255, 0.2)",
+                borderRadius: 4,
+                padding: "12px",
+                marginBottom: 24,
+                textAlign: "center",
+                fontSize: 13,
+                color: "var(--text-primary)"
+              }}>
+                <span style={{ color: "var(--accent-primary)", display: "block", marginBottom: 4, fontSize: 11, textTransform: "uppercase", letterSpacing: "1px", fontWeight: 600 }}>Public Demo Access</span>
+                <strong>ID:</strong> admin &nbsp;|&nbsp; <strong>Password:</strong> root123
+              </div>
 
               <form onSubmit={handleLogin} style={{ display: "flex", flexDirection: "column", gap: 16 }}>
                 <div>
