@@ -1,7 +1,7 @@
 "use client";
 import { useState } from "react";
 import { FileText, Download, Loader } from "lucide-react";
-import { generateReport, getReports } from "../../../lib/api";
+import { generateReport, getReports } from "@/lib/api";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 

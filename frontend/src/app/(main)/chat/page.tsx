@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
 import { Send, Sparkles, Bot, User } from "lucide-react";
-import { sendChat } from "../../../lib/api";
+import { sendChat } from "@/lib/api";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 

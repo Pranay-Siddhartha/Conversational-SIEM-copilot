@@ -1,7 +1,7 @@
 "use client";
 import { useState, useRef } from "react";
 import { Upload, CheckCircle, AlertCircle, FileText } from "lucide-react";
-import { uploadLog, clearLogs } from "../../../lib/api";
+import { uploadLog, clearLogs } from "@/lib/api";
 
 export default function UploadPage() {
   const [uploading, setUploading] = useState(false);

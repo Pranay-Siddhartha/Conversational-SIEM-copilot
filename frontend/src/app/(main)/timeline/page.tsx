@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from "react";
 import { Clock, AlertTriangle, Zap, ShieldAlert, Activity } from "lucide-react";
-import { getAttackChains } from "../../../lib/api";
+import { getAttackChains } from "@/lib/api";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 

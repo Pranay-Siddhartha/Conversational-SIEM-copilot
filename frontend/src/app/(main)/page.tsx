@@ -5,7 +5,7 @@ import {
   LineChart, Line, PieChart, Pie, Cell,
 } from "recharts";
 import { Shield, AlertTriangle, Globe, Users, TrendingUp } from "lucide-react";
-import { getStats, getRiskScore } from "../../lib/api";
+import { getStats, getRiskScore } from "@/lib/api";
 
 const SEVERITY_COLORS: Record<string, string> = {
   critical: "#ff0000",
