@@ -129,16 +129,24 @@ export default function UploadPage() {
       )}
 
       {/* Actions */}
-      <div style={{ marginTop: 24, display: "flex", gap: 12, alignItems: "center" }}>
+      <div style={{ marginTop: 24, display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
         <button className="btn btn-danger" onClick={handleClear}>
           Clear All Logs
         </button>
         
-        <div style={{ borderLeft: "1px solid var(--border-color)", height: 24, margin: "0 8px" }} />
+        <div style={{ borderLeft: "1px solid var(--border-color)", height: 24, margin: "0 8px", display: "none" }} className="md-divider" />
         
         <a href="/sample_auth.log" download className="btn btn-primary" title="Download a sample log to test the system">
           <FileText size={16} /> Download Sample Log
         </a>
+
+        <div style={{ 
+          display: "flex", alignItems: "center", gap: 6, fontSize: 12, 
+          color: "var(--success)", background: "rgba(0, 255, 102, 0.08)", 
+          padding: "6px 12px", borderRadius: 4, border: "1px solid rgba(0, 255, 102, 0.2)" 
+        }}>
+          <CheckCircle size={14} /> Safe, synthetic data strictly for demo purposes
+        </div>
       </div>
 
 
