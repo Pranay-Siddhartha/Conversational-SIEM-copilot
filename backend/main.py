@@ -20,7 +20,10 @@ app = FastAPI(
 # ── CORS ──────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://conversational-siem-copilot-ten.vercel.app"],
+    allow_origins=[
+        "https://conversational-siem-copilot-ten.vercel.app",
+        "http://localhost:3000",
+    ],
     allow_credentials=False,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
