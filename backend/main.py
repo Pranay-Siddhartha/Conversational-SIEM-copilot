@@ -16,6 +16,15 @@ app = FastAPI(
     version="2.0.0",
 )
 
+# ── CORS ──────────────────────────────────────────────────
+app.add_middleware(
+    CORSMiddleware,
+    allow_origin_regex=r"https://.*\.vercel\.app",
+    allow_credentials=False,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
+
 # ── SaaS Middlewares ──────────────────────────────────────────
 
 @app.middleware("http")
@@ -51,14 +60,7 @@ async def global_exception_handler(request: Request, exc: Exception):
         },
     )
 
-# ── CORS ──────────────────────────────────────────────────
-app.add_middleware(
-    CORSMiddleware,
-    allow_origin_regex=r"https://.*\.vercel\.app",
-    allow_credentials=False,
-    allow_methods=["*"],
-    allow_headers=["*"],
-)
+
 
 # Modular Routers (Packageized)
 app.include_router(logs.router, prefix="/api")
