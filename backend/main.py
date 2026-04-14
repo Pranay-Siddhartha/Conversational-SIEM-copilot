@@ -14,13 +14,13 @@ from backend.db.database import init_db
 app = FastAPI(
     title=settings.APP_TITLE,
     description="Enterprise-grade AI SIEM Copilot SOC platform",
-    version="2.0.3", # Production redeploy trigger
+    version="2.1.0", # Enterprise SOC Baseline
 )
 
 # ── CORS ──────────────────────────────────────────────────
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["https://conversational-siem-copilot-ten.vercel.app/"],
+    allow_origins=["https://conversational-siem-copilot-ten.vercel.app"],
     allow_credentials=False,
     allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allow_headers=["*"],
