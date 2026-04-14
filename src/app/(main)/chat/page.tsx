@@ -44,7 +44,7 @@ export default function ChatPage() {
     } catch {
       setMessages((prev) => [
         ...prev,
-        { role: "assistant", content: "⚠️ Error connecting to backend. Make sure the API is running on port 8000." },
+        { role: "assistant", content: "⚠️ Error connecting to investigation service. Please try again later." },
       ]);
     }
     setLoading(false);

@@ -1,75 +1,92 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || (process.env.NODE_ENV === 'production' ? '' : 'http://localhost:8000');
+const API_BASE = process.env.NODE_ENV === "development" ? "http://localhost:8000" : "";
+
+/**
+ * Centralized API fetch utility for SIEM Copilot.
+ * Uses relative routes in production and localhost in development.
+ */
+export async function apiFetch(path: string, options?: RequestInit) {
+  const url = `${API_BASE}/api${path}`;
+  
+  const headers = new Headers(options?.headers);
+  
+  // Automatically set Content-Type if body is present and not FormData
+  if (options?.body && !(options.body instanceof FormData) && !headers.has("Content-Type")) {
+    headers.set("Content-Type", "application/json");
+  }
+
+  const res = await fetch(url, {
+    ...options,
+    headers,
+  });
+
+  if (!res.ok) {
+    const errorData = await res.json().catch(() => ({}));
+    throw new Error(errorData.detail || `API error: ${res.statusText}`);
+  }
+
+  return res.json();
+}
+
+/**
+ * High-level API functions for SIEM dashboard components.
+ */
 
 export async function uploadLog(file: File) {
   const formData = new FormData();
   formData.append("file", file);
-  const res = await fetch(`${API_BASE}/api/logs/upload`, {
+  return apiFetch("/logs/upload", {
     method: "POST",
     body: formData,
   });
-  return res.json();
 }
 
 export async function getEvents(params?: Record<string, string>) {
   const query = params ? "?" + new URLSearchParams(params).toString() : "";
-  const res = await fetch(`${API_BASE}/api/logs/events${query}`);
-  return res.json();
+  return apiFetch(`/logs/events${query}`);
 }
 
 export async function getStats() {
-  const res = await fetch(`${API_BASE}/api/logs/stats`);
-  return res.json();
+  return apiFetch("/logs/stats");
 }
 
 export async function sendChat(message: string) {
-  const res = await fetch(`${API_BASE}/api/chat/`, {
+  return apiFetch("/chat/", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ message, context_limit: 200 }),
   });
-  return res.json();
 }
 
 export async function getTimeline() {
-  const res = await fetch(`${API_BASE}/api/analysis/timeline`);
-  return res.json();
+  return apiFetch("/analysis/timeline");
 }
 
 export async function getPredictions() {
-  const res = await fetch(`${API_BASE}/api/analysis/predictions`);
-  return res.json();
+  return apiFetch("/analysis/predictions");
 }
 
 export async function getAttackChains() {
-  const res = await fetch(`${API_BASE}/api/analysis/chains`);
-  return res.json();
+  return apiFetch("/analysis/chains");
 }
 
 export async function getRiskScore() {
-  const res = await fetch(`${API_BASE}/api/analysis/risk-score`);
-  return res.json();
+  return apiFetch("/analysis/risk-score");
 }
 
 export async function getThreats() {
-  const res = await fetch(`${API_BASE}/api/analysis/threats`);
-  return res.json();
+  return apiFetch("/analysis/threats");
 }
 
 export async function generateReport(title?: string) {
-  const res = await fetch(`${API_BASE}/api/reports/generate`, {
+  return apiFetch("/reports/generate", {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ title: title || "Incident Report" }),
   });
-  return res.json();
 }
 
 export async function getReports() {
-  const res = await fetch(`${API_BASE}/api/reports/`);
-  return res.json();
+  return apiFetch("/reports/");
 }
 
 export async function clearLogs() {
-  const res = await fetch(`${API_BASE}/api/logs/clear`, { method: "DELETE" });
-  return res.json();
+  return apiFetch("/logs/clear", { method: "DELETE" });
 }
