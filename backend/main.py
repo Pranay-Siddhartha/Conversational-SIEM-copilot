@@ -1,7 +1,13 @@
+from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from fastapi.exceptions import RequestValidationError
 from starlette.requests import Request
 import time
+
+from app.core.config import settings
+from app.routes import logs, chat, analysis, reports
+from app.db.database import init_db
 
 app = FastAPI(
     title=settings.APP_TITLE,
