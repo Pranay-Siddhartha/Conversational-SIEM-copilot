@@ -3,7 +3,7 @@
  * Standardized to communicate with the hardened FastAPI/Vercel backend.
  */
 
-const BASE_URL = "/api";
+const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
 
 /**
  * Helper for making JSON requests.

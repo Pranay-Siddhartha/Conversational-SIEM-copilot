@@ -39,5 +39,5 @@ def health():
     return {
         "status": "ok",
         "service": "SIEM Copilot API",
-        "runtime": "Vercel Python"
+        "runtime": "Railway Python"
     }
