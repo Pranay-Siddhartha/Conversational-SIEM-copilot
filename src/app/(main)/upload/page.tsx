@@ -10,18 +10,24 @@ export default function UploadPage() {
   const [dragover, setDragover] = useState(false);
   const fileRef = useRef<HTMLInputElement>(null);
 
-  const handleFile = async (file: File) => {
-    setUploading(true);
-    setError("");
-    setResult(null);
-    try {
-      const data = await uploadLog(file);
-      setResult(data);
-    } catch (e) {
-      setError("Failed to upload. Make sure the backend is running on port 8000.");
-    }
+const handleFile = async (file: File) => {
+  setUploading(true);
+  setError("");
+  setResult(null);
+
+  try {
+    const data = await uploadLog(file);
+    setResult(data);
+  } catch (e) {
+    setError(
+      e instanceof Error
+        ? e.message
+        : "Failed to upload log file."
+    );
+  } finally {
     setUploading(false);
-  };
+  }
+};
 
   const handleDrop = (e: React.DragEvent) => {
     e.preventDefault();

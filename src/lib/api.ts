@@ -27,21 +27,22 @@ async function apiFetch(endpoint: string, options: RequestInit = {}) {
 }
 
 // --- LOGS ---
-
 export async function uploadLog(file: File) {
   const formData = new FormData();
   formData.append("file", file);
 
-  // Note: We don't use apiFetch here because it sets Content-Type to JSON
   const response = await fetch(`${BASE_URL}/logs/upload`, {
     method: "POST",
     body: formData,
   });
 
-  if (!response.ok) throw new Error("Upload failed");
+  if (!response.ok) {
+    const errorBody = await response.text();
+    throw new Error(`Upload failed: ${errorBody}`);
+  }
+
   return response.json();
 }
-
 export async function getStats() {
   return apiFetch("/logs/stats");
 }
