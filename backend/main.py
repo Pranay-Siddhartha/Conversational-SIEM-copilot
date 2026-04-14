@@ -36,7 +36,6 @@ def on_startup():
 
 @app.get("/health")
 def health():
-    """Minimal healthcheck for independent runtime verification."""
     return {
         "status": "ok",
         "service": "SIEM Copilot API",
