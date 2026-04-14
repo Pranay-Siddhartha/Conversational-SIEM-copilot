@@ -3,7 +3,8 @@
  * Production-ready bridge with exponential backoff retries and timeout protection.
  */
 
-const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "/api";
+const BASE_URL =
+  `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/api`;
 const MAX_RETRIES = 3;
 const INITIAL_RETRY_DELAY = 1000;
 
