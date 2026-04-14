@@ -177,7 +177,9 @@ def _parse_csv(content: str) -> list[dict]:
 
         mapped_keys = set()
         for col, val in row.items():
-            col_lower = col.strip().lower().replace(" ", "_")
+            if not col:
+                continue
+            col_lower = str(col).strip().lower().replace(" ", "_")
             if col_lower in COLUMN_MAP:
                 target = COLUMN_MAP[col_lower]
                 if target == "timestamp":
