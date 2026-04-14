@@ -5,113 +5,79 @@
 [![Groq](https://img.shields.io/badge/AI-Groq%20Cloud-orange?style=for-the-badge&logo=groq&logoColor=white)](https://groq.com/)
 [![Tailwind 4](https://img.shields.io/badge/UI-Tailwind%204-06B6D4?style=for-the-badge&logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
 
-An advanced, **AI-powered Security Operations Center (SOC) Assistant** designed to simplify threat detection, investigation, and response through a natural language interface. Instead of complex SQL queries or regex, simply **ask your SIEM** who's attacking you.
+An advanced, **AI-powered Security Operations Center (SOC) Assistant** designed to simplify threat detection, investigation, and response through a natural language interface.
 
 ---
 
 ## 🔥 Key Features
 
-- **🌐 Conversational Threat Analysis**: Ask questions like *"Who's attacking me from Russia?"* or *"Summarize the last 24 hours of firewall logs."*
-- **⏳ Multi-Incident Timeline**: A sophisticated UI that groups suspicious events into **Attack Chains**, allowing you to track multiple threat actors simultaneously.
-- **🔮 Predictive Intelligence**: AI forecasts the attacker's next move based on current behavior and MITRE ATT&CK patterns.
-- **📈 Real-time Analytics**: Dynamic dashboard with interactive charts visualizing attack volume, success rates, and geographic distribution.
-- **⚡ Blazing Fast Inference**: Integration with **Groq LPU™** technology for near-instant log analysis and narrative generation.
-- **🎨 Cybernetic UX**: A premium, glassmorphic dark-themed interface built for modern security teams.
+- **🌐 Conversational Threat Analysis**: Ask questions like *"Who's attacking me from Russia?"*
+- **⏳ Multi-Incident Timeline**: Track multiple threat actors with sophisicated Attack Chains.
+- **🔮 Predictive Intelligence**: AI forecasts attacker's next moves based on MITRE ATT&CK.
+- **📈 Real-time Analytics**: Dynamic dashboard with interactive charts and threat maps.
 
 ---
 
-## 🏗️ Architecture
-
-The project consists of three main components:
-
-1.  **Frontend**: Next.js 15+ with TailwindCSS 4 and Framer Motion for premium animations.
-2.  **Backend**: FastAPI (Python) handling log ingestion, SQL generation, and AI orchestration.
-3.  **Database**: PostgreSQL for persistent log storage and SQLite for lightweight local development.
-
----
-
-## 🚀 Getting Started
+## 🚀 Getting Started (Local Development)
 
 ### Prerequisites
-
 - **Node.js 20+**
 - **Python 3.12+**
-- **Docker & Docker Compose** (Optional, for database)
-- **Groq API Key** (or OpenAI/Gemini)
 
----
-
-### 1. Backend Setup
-
+### 1. Setup & Installation
 ```bash
-cd backend
+# Install Node dependencies
+npm install
+
+# Setup Python environment
 python -m venv venv
 source venv/bin/activate  # On Windows: .\venv\Scripts\activate
 pip install -r requirements.txt
 ```
 
-**Configuration**: Create a `.env` file in the `backend` folder:
+### 2. Configuration
+Create a `.env` file in the root:
 ```env
-DATABASE_URL=postgresql://siem_user:siem_password@localhost:5432/siem_copilot
-AI_PROVIDER=groq
-GROQ_API_KEY=your_groq_api_key_here
+DATABASE_URL=sqlite:///./siem_copilot.db
+GROQ_API_KEY=your_key_here
 ```
 
-**Run Server**:
+### 3. Run Development
 ```bash
-python -m uvicorn app.main:app --reload
-```
-
----
-
-### 2. Frontend Setup
-
-```bash
-cd frontend
-npm install
-```
-
-**Configuration**: Create a `.env.local` file:
-```env
-NEXT_PUBLIC_API_URL=http://localhost:8000
-```
-
-**Run Development Server**:
-```bash
+# Frontend
 npm run dev
+
+# Backend (separate terminal)
+python -m uvicorn api.index:app --reload --port 8000
 ```
 
 ---
 
-### 3. Docker (Alternative)
+## ☁️ Vercel Deployment
 
-To spin up the Postgres database only:
-```bash
-docker-compose up -d
-```
+This project is optimized for Vercel with a standard root-level layout.
+
+> [!IMPORTANT]
+> **Project Settings on Vercel**:
+> - **Framework Preset**: `Next.js`
+> - **Root Directory**: `.` (Repository root)
+
+The Python API in the `api/` directory is automatically detected and served as serverless functions.
 
 ---
 
 ## 📊 Project Structure
 
 ```bash
-Conversational-SIEM-Assisstant/
-├── backend/            # FastAPI Project
-│   ├── app/            # Main logic & Routers
-│   ├── sample_logs/    # JSON/Log samples for testing
-│   └── .env            # Environment config (Private)
-├── frontend/           # Next.js Application
-│   ├── src/app/        # App Router pages
-│   ├── components/     # UI Design System
-│   └── public/         # Static assets
-├── docker-compose.yml  # Database orchestration
-└── README.md           # You are here!
+Conversational-SIEM-copilot/
+├── api/                # Python Serverless Functions (Vercel)
+├── backend/            # Shared Backend Logic & Services
+├── src/                # Next.js Frontend Source
+├── public/             # Static Assets
+├── requirements.txt    # Python Dependencies
+├── package.json        # Frontend Dependencies
+└── vercel.json         # Vercel Routing Configuration
 ```
-
----
-
-## 🛡️ Security & Privacy
-The SIEM Copilot is designed with data privacy in mind. Sensitive fields can be masked before being sent to the AI providers, ensuring your metadata remains secure.
 
 ---
 
