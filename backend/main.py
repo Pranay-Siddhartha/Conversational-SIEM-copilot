@@ -5,7 +5,7 @@ from fastapi.exceptions import RequestValidationError
 from starlette.requests import Request
 import time
 
-from core.config import settings
+from config import settings
 from routes import logs, chat, analysis, reports
 from db.database import init_db
 
