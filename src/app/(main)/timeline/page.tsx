@@ -48,47 +48,45 @@ export default function TimelinePage() {
 
   return (
     <div>
-      <div className="page-header" style={{ marginBottom: 20 }}>
-        <h1>🕐 Multi-Incident Dashboard</h1>
-        <p>Investigate multiple simultaneous attack chains and thread actor narratives</p>
+    <motion.div 
+      initial={{ opacity: 0 }} 
+      animate={{ opacity: 1 }}
+      className="max-w-[1400px] mx-auto"
+    >
+      <div className="mb-10">
+        <h1 className="text-4xl font-bold text-[var(--text-primary)] mb-2 flex items-center gap-4">
+            <Clock className="text-[var(--accent-primary)]" size={32} />
+            Multi-Incident Timeline
+        </h1>
+        <p className="text-lg text-[var(--text-muted)] max-w-2xl">Investigate simultaneous attack chains and synthesized thread actor narratives.</p>
       </div>
 
       {/* Incident Switcher */}
-      <div style={{ marginBottom: 28 }}>
-        <h3 style={{ fontSize: 13, textTransform: "uppercase", letterSpacing: 1, color: "var(--text-muted)", marginBottom: 12, fontWeight: 600 }}>
+      <div className="mb-12">
+        <h3 className="text-[11px] font-bold text-[var(--text-muted)] uppercase tracking-[0.2em] mb-4">
           Active Attack Chains ({chains.length})
         </h3>
-        <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+        <div className="flex gap-4 overflow-x-auto pb-4 scrollbar-hide">
           {chains.map((chain, i) => (
             <button
               key={i}
               onClick={() => setSelectedIndex(i)}
-              style={{
-                background: selectedIndex === i ? "var(--bg-card-hover)" : "var(--bg-card)",
-                border: `1px solid ${selectedIndex === i ? "var(--accent-primary)" : "var(--border-color)"}`,
-                padding: "10px 16px",
-                borderRadius: 8,
-                cursor: "pointer",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "flex-start",
-                gap: 4,
-                minWidth: 200,
-                transition: "all 0.2s ease"
-              }}
+              className={`flex flex-col items-start gap-2 p-5 rounded-2xl border transition-all duration-300 min-w-[240px] text-left ${
+                selectedIndex === i 
+                ? "bg-[rgba(0,243,255,0.08)] border-[var(--accent-primary)] shadow-[0_0_20px_rgba(0,243,255,0.05)]" 
+                : "bg-[var(--bg-card)] border-[var(--border-color)] hover:border-[rgba(0,243,255,0.3)] hover:bg-[rgba(255,255,255,0.02)]"
+              }`}
             >
-              <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-                <span style={{ fontWeight: 600, fontSize: 13, color: selectedIndex === i ? "var(--accent-primary)" : "var(--text-primary)" }}>
+              <div className="flex items-center justify-between w-full">
+                <span className={`font-bold text-sm tracking-tight ${selectedIndex === i ? "text-[var(--accent-primary)]" : "text-[var(--text-primary)]"}`}>
                   {chain.incident_name}
                 </span>
-                <span className={`badge ${chain.severity}`} style={{ padding: "2px 6px", fontSize: 10 }}>
-                  {chain.severity}
-                </span>
+                <span className={`badge ${chain.severity}`}>{chain.severity}</span>
               </div>
-              <div style={{ display: "flex", alignItems: "center", gap: 6, fontSize: 12, color: "var(--text-secondary)" }}>
-                <Activity size={12} /> {chain.source_ip}
+              <div className="flex items-center gap-2 text-xs text-[var(--text-secondary)] font-medium">
+                <Activity size={12} className="opacity-70" /> {chain.source_ip}
               </div>
-              <div style={{ fontSize: 11, color: "var(--text-muted)", marginTop: 2 }}>
+              <div className="text-[10px] text-[var(--text-muted)] uppercase tracking-wider mt-1 opacity-70">
                 {chain.primary_attack_type}
               </div>
             </button>
@@ -96,97 +94,104 @@ export default function TimelinePage() {
         </div>
       </div>
 
-      {/* Prediction Card */}
-      {prediction && prediction.predicted_next_move && prediction.predicted_next_move !== "Unknown" && (
-        <div className="prediction-card" style={{ marginBottom: 28 }}>
-          <div style={{ position: "relative", zIndex: 1 }}>
-            <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 12 }}>
-              <Zap size={20} style={{ color: "var(--accent-secondary)" }} />
-              <h3 style={{ fontSize: 16, fontWeight: 600, color: "var(--accent-secondary)" }}>
-                🔮 Predicted Next Move for {activeChain.incident_name}
-              </h3>
-              <span className={`badge ${prediction.confidence === "high" ? "critical" : prediction.confidence === "medium" ? "medium" : "low"}`}>
-                {prediction.confidence} confidence
-              </span>
-            </div>
-            <p style={{ fontSize: 18, fontWeight: 600, marginBottom: 10, color: "var(--text-primary)" }}>
-              {prediction.predicted_next_move}
-            </p>
-            <p style={{ fontSize: 14, color: "var(--text-secondary)", lineHeight: 1.7, marginBottom: 16 }}>
-              {prediction.reasoning}
-            </p>
-            {prediction.recommended_actions?.length > 0 && (
-              <div>
-                <h4 style={{ fontSize: 13, fontWeight: 600, color: "var(--warning)", marginBottom: 8 }}>
-                  ⚡ Recommended Mitigations:
-                </h4>
-                <ul style={{ paddingLeft: 20 }}>
-                  {prediction.recommended_actions.map((a: string, i: number) => (
-                    <li key={i} style={{ fontSize: 13, color: "var(--text-secondary)", marginBottom: 4 }}>
-                      {a}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
-          </div>
-        </div>
-      )}
-
-      {/* AI Narrative */}
-      {activeChain?.ai_narrative && (
-        <div className="card" style={{ marginBottom: 28 }}>
-          <div className="card-header">
-            <h3 className="card-title">
-              <ShieldAlert size={18} style={{ display: "inline", marginRight: 8, color: "var(--danger)" }} />
-              Attack Chain Narrative
-            </h3>
-          </div>
-          <div style={{ fontSize: 14, lineHeight: 1.8, color: "var(--text-secondary)" }}>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>{activeChain.ai_narrative}</ReactMarkdown>
-          </div>
-        </div>
-      )}
-
-      {/* Timeline */}
-      <h3 style={{ fontSize: 15, fontWeight: 600, marginBottom: 16, borderBottom: "1px solid var(--border-color)", paddingBottom: 8 }}>
-        Chain Events Log
-      </h3>
-      {activeChain?.timeline?.length > 0 ? (
-        <div className="timeline">
-          {activeChain.timeline.map((e: any, i: number) => (
-            <div key={i} className="timeline-event">
-              <div className={`timeline-dot ${e.severity}`} />
-              <div className="timeline-content">
-                <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 6 }}>
-                  <span className="timeline-time">
-                    <Clock size={12} style={{ display: "inline", marginRight: 4 }} />
-                    {e.timestamp}
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
+        <div className="xl:col-span-2 space-y-10">
+          {/* Prediction Card */}
+          {prediction && prediction.predicted_next_move && prediction.predicted_next_move !== "Unknown" && (
+            <div className="prediction-card">
+              <div className="relative z-10">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-3">
+                    <Zap size={24} className="text-[var(--accent-primary)]" />
+                    <h3 className="text-xl font-bold text-[var(--text-primary)]">
+                        Strategic Prediction
+                    </h3>
+                  </div>
+                  <span className={`badge ${prediction.confidence === "high" ? "critical" : prediction.confidence === "medium" ? "medium" : "low"}`}>
+                    {prediction.confidence} Confidence
                   </span>
-                  <span className={`badge ${e.severity}`}>{e.severity}</span>
                 </div>
-                <p className="timeline-desc">{e.event}</p>
-                {e.details && (
-                  <p style={{
-                    fontSize: 12,
-                    color: "var(--text-muted)",
-                    marginTop: 6,
-                    fontFamily: "'JetBrains Mono', monospace",
-                    background: "var(--bg-secondary)",
-                    padding: "8px 12px",
-                    borderRadius: 6,
-                    overflowX: "auto",
-                  }}>
-                    {e.details}
-                  </p>
+                
+                <div className="mb-6 p-6 bg-[rgba(255,255,255,0.02)] border border-[rgba(255,255,255,0.05)] rounded-2xl">
+                    <p className="text-xl font-bold text-[var(--accent-primary)] mb-2">
+                    {prediction.predicted_next_move}
+                    </p>
+                    <p className="text-[var(--text-secondary)] leading-relaxed">
+                    {prediction.reasoning}
+                    </p>
+                </div>
+
+                {prediction.recommended_actions?.length > 0 && (
+                  <div className="space-y-4">
+                    <h4 className="text-sm font-bold text-[var(--warning)] uppercase tracking-widest flex items-center gap-2">
+                      <Zap size={14} /> Immediate Mitigations
+                    </h4>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                      {prediction.recommended_actions.map((a: string, i: number) => (
+                        <div key={i} className="flex items-center gap-3 p-3 bg-[rgba(245,158,11,0.05)] border border-[rgba(245,158,11,0.1)] rounded-xl text-sm text-[var(--text-secondary)]">
+                          <Activity size={14} className="text-[var(--warning)] shrink-0" />
+                          {a}
+                        </div>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
             </div>
-          ))}
+          )}
+
+          {/* AI Narrative */}
+          {activeChain?.ai_narrative && (
+            <div className="card">
+              <div className="card-header border-b border-[var(--border-color)] pb-6 mb-8">
+                <h3 className="card-title flex items-center gap-3">
+                  <ShieldAlert size={22} className="text-[var(--danger)]" />
+                  Synthesis & Narrative
+                </h3>
+              </div>
+              <div className="prose prose-invert max-w-none prose-sm opacity-90 leading-relaxed text-[var(--text-secondary)]">
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>{activeChain.ai_narrative}</ReactMarkdown>
+              </div>
+            </div>
+          )}
         </div>
-      ) : (
-        <p style={{ color: "var(--text-muted)" }}>No log events in this chain.</p>
-      )}
+
+        {/* Timeline Sidebar Column */}
+        <div className="space-y-6">
+          <h3 className="text-sm font-bold text-[var(--text-muted)] uppercase tracking-[0.2em] mb-4">
+            Event Sequence
+          </h3>
+          {activeChain?.timeline?.length > 0 ? (
+            <div className="timeline">
+              {activeChain.timeline.map((e: any, i: number) => (
+                <div key={i} className="timeline-event">
+                  <div className={`timeline-dot ${e.severity}`} />
+                  <div className="timeline-content">
+                    <div className="flex justify-between items-center mb-3">
+                      <span className="timeline-time flex items-center gap-1.5">
+                        <Clock size={12} />
+                        {e.timestamp}
+                      </span>
+                      <span className={`badge ${e.severity} text-[8px] py-1`}>{e.severity}</span>
+                    </div>
+                    <p className="timeline-desc text-sm font-medium">{e.event}</p>
+                    {e.details && (
+                      <div className="mt-4 p-3 bg-[var(--bg-secondary)] border border-[var(--border-color)] rounded-xl text-[11px] text-[var(--text-muted)] font-mono overflow-hidden">
+                        {e.details}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="p-8 text-center border-2 border-dashed border-[var(--border-color)] rounded-3xl opacity-50">
+                <p className="text-sm text-[var(--text-muted)]">No telemetry sequence available.</p>
+            </div>
+          )}
+        </div>
+      </div>
+    </motion.div>
     </div>
   );
 }

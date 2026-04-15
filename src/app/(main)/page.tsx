@@ -118,88 +118,116 @@ export default function DashboardPage() {
       variants={containerVars}
       initial="hidden"
       animate="visible"
-      className="space-y-8"
+      className="max-w-[1400px] mx-auto"
     >
-      <div className="page-header">
-        <motion.h1 variants={itemVars} className="text-3xl font-bold tracking-tight">
-            🛡️ Security Operations Center
+      <div className="mb-12">
+        <motion.h1 
+          variants={itemVars} 
+          className="text-4xl font-bold tracking-tight text-[var(--text-primary)] mb-2"
+        >
+          🛡️ SOC Overview
         </motion.h1>
-        <motion.p variants={itemVars} className="text-[var(--text-muted)] mt-1">
-            Real-time telemetry and AI-driven incident analysis
+        <motion.p 
+          variants={itemVars} 
+          className="text-lg text-[var(--text-muted)] max-w-2xl"
+        >
+          Real-time telemetry and AI-driven incident analysis across your global infrastructure.
         </motion.p>
       </div>
 
       {/* Stats Cards */}
-      <div className="stats-grid">
-        <motion.div variants={itemVars} className="stat-card indigo">
+      <div className="stats-grid mb-12">
+        <motion.div variants={itemVars} className="stat-card">
           <div className="flex justify-between items-start">
             <div>
-              <div className="stat-value">{stats.total_events?.toLocaleString()}</div>
-              <div className="stat-label">Ingested Events</div>
+              <div className="stat-value text-[var(--accent-primary)]">
+                {stats.total_events?.toLocaleString()}
+              </div>
+              <div className="stat-label">Total Logs Ingested</div>
             </div>
-            <TrendingUp size={20} className="text-[var(--accent-primary)]" />
+            <div className="p-3 bg-[rgba(0,243,255,0.05)] rounded-xl">
+              <TrendingUp size={24} className="text-[var(--accent-primary)]" />
+            </div>
+          </div>
+          <div className="mt-4 h-1 w-full bg-[rgba(255,255,255,0.03)] rounded-full overflow-hidden">
+            <div className="h-full w-2/3 bg-[var(--accent-primary)] rounded-full opacity-50" />
           </div>
         </motion.div>
         
-        <motion.div variants={itemVars} className="stat-card red">
+        <motion.div variants={itemVars} className="stat-card">
           <div className="flex justify-between items-start">
             <div>
               <div className="stat-value text-[var(--danger)]">{stats.suspicious_events}</div>
-              <div className="stat-label">Filtered Threats</div>
+              <div className="stat-label">Security Anomalies</div>
             </div>
-            <AlertTriangle size={20} className="text-[var(--danger)]" />
+            <div className="p-3 bg-[rgba(239,68,68,0.05)] rounded-xl">
+              <AlertTriangle size={24} className="text-[var(--danger)]" />
+            </div>
+          </div>
+          <div className="mt-4 h-1 w-full bg-[rgba(255,255,255,0.03)] rounded-full overflow-hidden">
+            <div className="h-full w-1/4 bg-[var(--danger)] rounded-full opacity-50" />
           </div>
         </motion.div>
 
-        <motion.div variants={itemVars} className="stat-card green">
+        <motion.div variants={itemVars} className="stat-card">
           <div className="flex justify-between items-start">
             <div>
               <div className="stat-value text-[var(--success)]">{stats.unique_ips}</div>
-              <div className="stat-label">Active Vectors</div>
+              <div className="stat-label">Unique Sources</div>
             </div>
-            <Globe size={20} className="text-[var(--success)]" />
+            <div className="p-3 bg-[rgba(16,185,129,0.05)] rounded-xl">
+              <Globe size={24} className="text-[var(--success)]" />
+            </div>
+          </div>
+          <div className="mt-4 h-1 w-full bg-[rgba(255,255,255,0.03)] rounded-full overflow-hidden">
+            <div className="h-full w-1/2 bg-[var(--success)] rounded-full opacity-50" />
           </div>
         </motion.div>
 
-        <motion.div variants={itemVars} className="stat-card amber">
+        <motion.div variants={itemVars} className="stat-card">
           <div className="flex justify-between items-start">
             <div>
               <div className="stat-value text-[var(--warning)]">{stats.unique_users}</div>
-              <div className="stat-label">Tracked Accounts</div>
+              <div className="stat-label">Active Identities</div>
             </div>
-            <Users size={20} className="text-[var(--warning)]" />
+            <div className="p-3 bg-[rgba(245,158,11,0.05)] rounded-xl">
+              <Users size={24} className="text-[var(--warning)]" />
+            </div>
+          </div>
+          <div className="mt-4 h-1 w-full bg-[rgba(255,255,255,0.03)] rounded-full overflow-hidden">
+            <div className="h-full w-1/3 bg-[var(--warning)] rounded-full opacity-50" />
           </div>
         </motion.div>
       </div>
 
-      {/* Risk Score + Severity Pie */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <motion.div variants={itemVars} className="card overflow-hidden">
-          <div className="card-header pb-6 border-b border-[var(--border-color)] mb-6">
-            <h3 className="card-title flex items-center gap-2">
-                <Zap size={18} className="text-[var(--accent-primary)]" />
-                Aggregated Risk Vector
+      {/* Main Analysis Section */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 mb-10">
+        <motion.div variants={itemVars} className="card">
+          <div className="card-header border-b border-[var(--border-color)] pb-6 mb-8">
+            <h3 className="card-title flex items-center gap-3">
+                <Zap size={22} className="text-[var(--accent-primary)]" />
+                Aggregated Risk Profile
             </h3>
           </div>
           {risk && (
-            <div className="flex flex-col md:flex-row items-center gap-12">
+            <div className="flex flex-col xl:flex-row items-center gap-12">
               <div className={`risk-circle ${risk.severity} shrink-0`}>
                 <span className="score">{Math.round(risk.overall_score)}</span>
                 <span className="label">Index</span>
               </div>
-              <div className="flex-1 w-full space-y-4">
+              <div className="flex-1 w-full space-y-12">
                 {risk.factors?.map((f: any, i: number) => (
                   <div key={i}>
-                    <div className="flex justify-between text-xs mb-1.5 px-0.5">
-                      <span className="text-[var(--text-secondary)] font-medium uppercase tracking-wider">{f.factor}</span>
-                      <span className="text-[var(--accent-secondary)] font-bold">+{f.impact}</span>
+                    <div className="flex justify-between text-xs mb-2.5 px-1">
+                      <span className="text-[var(--text-secondary)] font-semibold uppercase tracking-widest opacity-80">{f.factor}</span>
+                      <span className="text-[var(--accent-primary)] font-bold">+{f.impact}</span>
                     </div>
-                    <div className="h-1.5 w-full bg-[rgba(255,255,255,0.03)] rounded-full overflow-hidden">
+                    <div className="h-2 w-full bg-[rgba(255,255,255,0.02)] rounded-full overflow-hidden border border-[rgba(255,255,255,0.05)]">
                       <motion.div 
                         initial={{ width: 0 }}
                         animate={{ width: `${Math.min(f.impact * 4, 100)}%` }}
-                        transition={{ duration: 2, ease: "easeOut", delay: 0.5 + (i * 0.1) }}
-                        className="h-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--danger)]" 
+                        transition={{ duration: 1.8, ease: "circOut", delay: 0.8 + (i * 0.15) }}
+                        className="h-full bg-gradient-to-r from-[var(--accent-primary)] to-[var(--accent-secondary)]" 
                       />
                     </div>
                   </div>
@@ -210,36 +238,36 @@ export default function DashboardPage() {
         </motion.div>
 
         <motion.div variants={itemVars} className="card">
-          <div className="card-header pb-2">
-            <h3 className="card-title">Event Severity Matrix</h3>
+          <div className="card-header border-b border-[var(--border-color)] pb-6 mb-2">
+            <h3 className="card-title">Threat Distribution Matrix</h3>
           </div>
-          <ResponsiveContainer width="100%" height={260}>
+          <ResponsiveContainer width="100%" height={300}>
             <PieChart>
               <Pie
                 data={severityData}
                 cx="50%"
-                cy="50%"
-                outerRadius={80}
-                innerRadius={55}
+                cy="55%"
+                outerRadius={90}
+                innerRadius={65}
                 dataKey="value"
                 stroke="none"
-                paddingAngle={2}
+                paddingAngle={4}
               >
                 {severityData.map((entry, i) => (
-                  <Cell key={i} fill={entry.fill} />
+                  <Cell key={i} fill={entry.fill} className="hover:opacity-80 transition-opacity" />
                 ))}
               </Pie>
               <Tooltip
-                contentStyle={{ background: "rgba(2, 4, 8, 0.95)", border: "1px solid var(--border-color)", borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ background: "rgba(2, 4, 8, 0.98)", border: "1px solid var(--border-color)", borderRadius: 12, fontSize: 13, backdropFilter: 'blur(12px)' }}
               />
             </PieChart>
           </ResponsiveContainer>
-          <div className="grid grid-cols-2 sm:grid-cols-3 gap-x-4 gap-y-3 mt-4">
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-y-4 pt-4 border-t border-[var(--border-color)]">
             {severityData.map((d) => (
-              <div key={d.name} className="flex items-center gap-2">
-                <div className="w-2 h-2 rounded-full" style={{ background: d.fill, boxShadow: `0 0 8px ${d.fill}` }} />
-                <span className="text-xs text-[var(--text-muted)] capitalize truncate">
-                  {d.name}: {d.value}
+              <div key={d.name} className="flex items-center gap-3">
+                <div className="w-2.5 h-2.5 rounded-full" style={{ background: d.fill, boxShadow: `0 0 10px ${d.fill}40` }} />
+                <span className="text-xs text-[var(--text-muted)] font-medium capitalize">
+                  {d.name}: <span className="text-[var(--text-primary)] ml-1">{d.value}</span>
                 </span>
               </div>
             ))}
@@ -247,25 +275,26 @@ export default function DashboardPage() {
         </motion.div>
       </div>
 
-      {/* Top IPs + Failed Login Trend */}
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+      {/* Hostile Infra + Access Pulse */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
         <motion.div variants={itemVars} className="card">
-          <div className="card-header border-b border-[var(--border-color)] pb-4 mb-6">
-            <h3 className="card-title">Hostile Infrastructure (Source IPs)</h3>
+          <div className="card-header border-b border-[var(--border-color)] pb-6 mb-8">
+            <h3 className="card-title">Infiltration Sources (Top IPs)</h3>
           </div>
-          <ResponsiveContainer width="100%" height={320}>
-            <BarChart data={stats.top_source_ips?.slice(0, 10)} layout="vertical" margin={{ left: -10, right: 20 }}>
+          <ResponsiveContainer width="100%" height={340}>
+            <BarChart data={stats.top_source_ips?.slice(0, 8)} layout="vertical" margin={{ left: -10, right: 30 }}>
               <XAxis type="number" hide />
-              <YAxis dataKey="ip" type="category" stroke="var(--text-muted)" fontSize={11} width={120} axisLine={false} tickLine={false} />
+              <YAxis dataKey="ip" type="category" stroke="var(--text-muted)" fontSize={12} width={130} axisLine={false} tickLine={false} />
               <Tooltip
-                cursor={{ fill: 'rgba(255,255,255,0.03)' }}
-                contentStyle={{ background: "rgba(2, 4, 8, 0.95)", border: "1px solid var(--border-color)", borderRadius: 8, fontSize: 12 }}
+                cursor={{ fill: 'rgba(255,255,255,0.02)' }}
+                contentStyle={{ background: "rgba(2, 4, 8, 0.98)", border: "1px solid var(--border-color)", borderRadius: 12, fontSize: 13, backdropFilter: 'blur(12px)' }}
               />
-              <Bar dataKey="count" radius={[0, 4, 4, 0]} barSize={16}>
+              <Bar dataKey="count" radius={[0, 6, 6, 0]} barSize={20}>
                 {stats.top_source_ips?.map((entry: any, i: number) => (
                   <Cell
                     key={i}
                     fill={SEVERITY_COLORS[entry.severity] || "var(--accent-secondary)"}
+                    className="hover:opacity-80 transition-opacity"
                   />
                 ))}
               </Bar>
@@ -274,30 +303,30 @@ export default function DashboardPage() {
         </motion.div>
 
         <motion.div variants={itemVars} className="card">
-          <div className="card-header border-b border-[var(--border-color)] pb-4 mb-6">
-            <h3 className="card-title">Anomalous Access Pulse (Failed Logins)</h3>
+          <div className="card-header border-b border-[var(--border-color)] pb-6 mb-8">
+            <h3 className="card-title">Anomalous Access Pulse</h3>
           </div>
-          <ResponsiveContainer width="100%" height={320}>
+          <ResponsiveContainer width="100%" height={340}>
             <LineChart data={stats.failed_login_trend}>
               <XAxis
                 dataKey="time"
                 stroke="var(--text-muted)"
-                fontSize={10}
+                fontSize={11}
                 axisLine={false}
                 tickLine={false}
                 tickFormatter={(v: string) => v.split(" ")[1] || v}
               />
-              <YAxis stroke="var(--text-muted)" fontSize={10} axisLine={false} tickLine={false} />
+              <YAxis stroke="var(--text-muted)" fontSize={11} axisLine={false} tickLine={false} />
               <Tooltip
-                contentStyle={{ background: "rgba(2, 4, 8, 0.95)", border: "1px solid var(--border-color)", borderRadius: 8, fontSize: 12 }}
+                contentStyle={{ background: "rgba(2, 4, 8, 0.98)", border: "1px solid var(--border-color)", borderRadius: 12, fontSize: 13, backdropFilter: 'blur(12px)' }}
               />
               <Line
                 type="monotone"
                 dataKey="count"
                 stroke="var(--danger)"
-                strokeWidth={3}
+                strokeWidth={4}
                 dot={{ fill: "var(--danger)", r: 4, strokeWidth: 0 }}
-                activeDot={{ r: 6, fill: "#fff", stroke: "var(--danger)", strokeWidth: 2 }}
+                activeDot={{ r: 7, fill: "#fff", stroke: "var(--danger)", strokeWidth: 3 }}
               />
             </LineChart>
           </ResponsiveContainer>
