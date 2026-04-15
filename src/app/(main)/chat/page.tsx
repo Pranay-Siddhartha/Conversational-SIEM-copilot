@@ -4,6 +4,7 @@ import { Send, Sparkles, Bot, User } from "lucide-react";
 import { sendChat } from "@/lib/api";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { motion } from "framer-motion";
 
 interface Message {
   role: "user" | "assistant";
