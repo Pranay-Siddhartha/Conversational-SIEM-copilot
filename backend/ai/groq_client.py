@@ -63,6 +63,30 @@ def call_groq(system_prompt: str, user_prompt: str) -> str:
 
     except urllib.error.HTTPError as e:
         body = e.read().decode("utf-8", errors="ignore")
+        
+        # ── RATE LIMIT FALLBACK ─────────────────────────────────────
+        # If the 70B model hits TPD (Tokens Per Day) or RPM limits, 
+        # fall back to the 8B model to keep the app functional.
+        if (e.code == 429 or "rate_limit" in body.lower()) and "70b" in payload:
+            print("[Groq] Rate limit hit on 70B model. Falling back to 8B-instant...")
+            fallback_payload = json.loads(payload)
+            fallback_payload["model"] = "llama-3.1-8b-instant"
+            
+            # Re-create request for fallback
+            fallback_req = urllib.request.Request(
+                url,
+                data=json.dumps(fallback_payload).encode("utf-8"),
+                headers=req.headers,
+                method="POST"
+            )
+            try:
+                with urllib.request.urlopen(fallback_req, timeout=10) as resp:
+                    raw = resp.read().decode("utf-8")
+                    data = json.loads(raw)
+                    return data["choices"][0]["message"]["content"]
+            except Exception as fe:
+                raise RuntimeError(f"Groq Fallback failed: {str(fe)}")
+        
         raise RuntimeError(f"Groq API error: {body[:300]}")
 
     except urllib.error.URLError as e:
