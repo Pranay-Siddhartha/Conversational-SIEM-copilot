@@ -21,7 +21,7 @@ app = FastAPI(
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[
-        "https://conversational-siem-copilot-ten.vercel.app/",
+        "https://conversational-siem-copilot-ten.vercel.app",
         "http://localhost:3000",
     ],
     allow_credentials=False,
