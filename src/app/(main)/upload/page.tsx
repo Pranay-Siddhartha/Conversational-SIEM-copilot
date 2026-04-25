@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef } from "react";
-import { Upload, CheckCircle, AlertCircle, FileText } from "lucide-react";
+import { Upload, CheckCircle, AlertCircle, FileText, Download } from "lucide-react";
 import { uploadLog, clearLogs } from "../../../lib/api";
 
 export default function UploadPage() {
@@ -128,12 +128,35 @@ export default function UploadPage() {
         </div>
       )}
 
+      {/* Sample Logs for Testing */}
+      <div className="card" style={{ marginTop: 24, background: "rgba(99, 102, 241, 0.05)", borderStyle: "dashed" }}>
+        <h3 style={{ display: "flex", alignItems: "center", gap: 8, marginBottom: 12 }}>
+          <FileText size={20} style={{ color: "var(--accent-primary)" }} />
+          Sample Logs for Testing
+        </h3>
+        <p style={{ color: "var(--text-muted)", fontSize: 14, marginBottom: 16 }}>
+          New to SIEM Copilot? Download a sample log file to see how the AI detects brute force attacks and privilege escalation.
+        </p>
+        <div style={{ display: "flex", gap: 12 }}>
+          <a
+            href="/sample_auth.log"
+            download="sample_auth.log"
+            className="btn btn-outline"
+            style={{ display: "flex", alignItems: "center", gap: 8 }}
+          >
+            <Download size={18} />
+            Download Sample Auth Log
+          </a>
+        </div>
+      </div>
+
       {/* Actions */}
       <div style={{ marginTop: 24, display: "flex", gap: 12 }}>
         <button className="btn btn-danger" onClick={handleClear}>
           Clear All Logs
         </button>
       </div>
+
 
 
     </div>
