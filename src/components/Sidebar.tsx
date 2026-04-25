@@ -11,6 +11,7 @@ import {
   Shield,
   LogOut,
 } from "lucide-react";
+import { clearLogs } from "../lib/api";
 
 const navItems = [
   { href: "/", label: "Dashboard", icon: LayoutDashboard },
@@ -66,7 +67,12 @@ export default function Sidebar() {
             Hello, {username}
           </div>
           <button
-            onClick={() => {
+            onClick={async () => {
+              try {
+                await clearLogs();
+              } catch (e) {
+                console.error("Failed to clear logs on logout:", e);
+              }
               localStorage.removeItem("siem_username");
               router.push("/login");
             }}
