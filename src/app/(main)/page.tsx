@@ -21,10 +21,34 @@ export default function DashboardPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    Promise.all([getStats(), getRiskScore()])
-      .then(([s, r]) => { setStats(s); setRisk(r); })
-      .catch(() => {})
-      .finally(() => setLoading(false));
+    let cancelled = false;
+
+    async function loadDashboard() {
+      try {
+        // Fetch stats first as it's the primary driver for the UI
+        const s = await getStats();
+        if (cancelled) return;
+        setStats(s);
+
+        // If no logs, stop loading immediately to show the "Upload Logs" prompt
+        if (!s || s.total_events === 0) {
+          setLoading(false);
+          return;
+        }
+
+        // Only fetch risk score if there are actual logs to analyze
+        const r = await getRiskScore();
+        if (cancelled) return;
+        setRisk(r);
+      } catch (err) {
+        console.error("Failed to load dashboard:", err);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    loadDashboard();
+    return () => { cancelled = true; };
   }, []);
 
   if (loading) {
